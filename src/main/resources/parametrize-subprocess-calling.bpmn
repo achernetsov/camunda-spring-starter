@@ -4,6 +4,7 @@
     <bpmn:participant id="Participant_17s6edm" name="parametrize call activity" processRef="parametrize-call-activity" />
     <bpmn:participant id="Participant_0ch85s7" name="sub a" processRef="sub-a" />
     <bpmn:participant id="Participant_1vjiyym" name="sub b" processRef="sub-b" />
+    <bpmn:participant id="Participant_1y5ybs8" name="parametrize call activity 2" processRef="parametrize-call-activity2" />
   </bpmn:collaboration>
   <bpmn:process id="parametrize-call-activity" name="parametrize-call-activity" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
@@ -51,6 +52,25 @@
       <bpmn:incoming>Flow_1q6tw7z</bpmn:incoming>
       <bpmn:outgoing>Flow_15poyje</bpmn:outgoing>
     </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:process id="parametrize-call-activity2" name="parametrize-call-activity2" isExecutable="true">
+    <bpmn:startEvent id="Event_0j2hwdm">
+      <bpmn:outgoing>Flow_0148c8e</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Activity_1o4v7hw" name="Choose sub condition field" camunda:delegateExpression="${chooseSubNameDelegate}">
+      <bpmn:incoming>Flow_0148c8e</bpmn:incoming>
+      <bpmn:outgoing>Flow_121zopu</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_1xo4kcm">
+      <bpmn:incoming>Flow_0465wui</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="Activity_03u1a9w" name="Call sub" calledElement="${subName == &#39;A&#39;? &#39;sub-a&#39;: &#39;sub-b&#39;}">
+      <bpmn:incoming>Flow_121zopu</bpmn:incoming>
+      <bpmn:outgoing>Flow_0465wui</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_0148c8e" sourceRef="Event_0j2hwdm" targetRef="Activity_1o4v7hw" />
+    <bpmn:sequenceFlow id="Flow_121zopu" sourceRef="Activity_1o4v7hw" targetRef="Activity_03u1a9w" />
+    <bpmn:sequenceFlow id="Flow_0465wui" sourceRef="Activity_03u1a9w" targetRef="Event_1xo4kcm" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1ctmj2g">
@@ -124,6 +144,35 @@
       <bpmndi:BPMNEdge id="BPMNEdge_0xea8di" bpmnElement="Flow_15poyje">
         <di:waypoint x="1000" y="500" />
         <di:waypoint x="1112" y="500" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_14qhizf" bpmnElement="Participant_1y5ybs8" isHorizontal="true">
+        <dc:Bounds x="160" y="740" width="750" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1m2pkqm" bpmnElement="Event_0j2hwdm">
+        <dc:Bounds x="319" y="847" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1imrijd" bpmnElement="Activity_1o4v7hw">
+        <dc:Bounds x="400" y="825" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_07rhnen" bpmnElement="Event_1xo4kcm">
+        <dc:Bounds x="692" y="847" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0tm4hrm" bpmnElement="Activity_03u1a9w">
+        <dc:Bounds x="540" y="825" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_021xu65" bpmnElement="Flow_0148c8e">
+        <di:waypoint x="355" y="865" />
+        <di:waypoint x="400" y="865" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_19yvp8b" bpmnElement="Flow_121zopu">
+        <di:waypoint x="500" y="865" />
+        <di:waypoint x="540" y="865" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0zk2dju" bpmnElement="Flow_0465wui">
+        <di:waypoint x="640" y="865" />
+        <di:waypoint x="692" y="865" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
