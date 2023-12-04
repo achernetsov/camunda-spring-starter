@@ -3,10 +3,9 @@ package ru.archertech.camundaspringstarter.controller;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("process")
@@ -15,8 +14,17 @@ public class ProcessController {
     private ProcessEngine processEngine;
 
     @GetMapping("{key}/start")
-    public String start(@PathVariable String key) {
-        ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey(key);
-        return processInstance.getId();
+    public StartedProcess start(@PathVariable String key) {
+        String businessKey = UUID.randomUUID().toString();
+        ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey(key, businessKey);
+
+        return new StartedProcess(processInstance.getId(), businessKey);
     }
+
+    @GetMapping("{businessKey}/signal")
+    public void signal(@PathVariable String businessKey, @RequestParam String message) {
+        processEngine.getRuntimeService().correlateMessage(message, businessKey);
+    }
+
+    public record StartedProcess(String processId, String busynessKey){};
 }
