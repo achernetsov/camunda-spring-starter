@@ -19,4 +19,10 @@ public class ProcessController {
         ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey(key);
         return processInstance.getId();
     }
+
+//    @GetMapping("{key}/start")
+//    public Mono<String> startAsync(@PathVariable String key) {
+//        ProcessInstance processInstance = processEngine.getRuntimeService().startProcessInstanceByKey(key);
+//        return processInstance.getId();
+//    }
 }
