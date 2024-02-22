@@ -12,6 +12,9 @@ public class SayHelloDelegate implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        log.info("Hello!");
+        log.info("Execution started");
+//        log.info("Hello!");
+        Thread.sleep(5000);
+        log.info("Execution ended");
     }
 }
